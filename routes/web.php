@@ -64,7 +64,9 @@ Route::middleware('CheckSession')->group(function(){
         Route::get('/download_attachment/{request_id}', 'downloadAttachment')->name('download_attachment/{request_id}');
         
         Route::get('/get_ongoing_jo_request', 'getOngoingJoRequest')->name('get_ongoing_jo_request');
-        Route::get('/get_completed_jo_request', 'getCompletedJoRequest')->name('get_completed_jo_request');
+        Route::get('/get_completed_jo_request', 'getCompletedJoRequest')->name('get_completed_jo_request'); // count
+        Route::get('/get_completed_jo_request_details', 'getCompletedJoRequestDetails')->name('get_completed_jo_request_details'); // count
+        
     });
 
     Route::controller(JoRequestConformanceController::class)->group(function () {

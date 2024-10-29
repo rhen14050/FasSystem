@@ -1181,6 +1181,395 @@
   </div>
 </div>
 
+<!--View Conformed Request-->
+<div class="modal fade" id="modalViewCompleteRequest"  data-bs-backdrop="static">
+  <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+
+      <div class="modal-header">
+          <h4 class="modal-title"><i class="fa fa-eye"></i>Conformance Details</h4>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <form id="formViewCompleteRequest">
+      @csrf
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-sm-12">
+                  <label>Request Details</label>
+              </div>
+          </div>      
+              <div class="row"></div>      
+                  <div class="row">
+                      <div class="col-sm-6">     
+                          <!--JO NO.-->
+                          <div class="row">
+                          <div class="col">
+                              <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                                  <span class="input-group-text w-100" id="basic-addon1">Jo No.</span>
+                              </div>
+
+                              <input type="hidden" class="form-control" name="conform_request_id" id="conformRequestId" readonly>
+                              <input type="hidden" class="form-control" name="jo_request_id" id="txtCompetedjoRequestId" readonly>
+                              <input type="hidden" class="form-control" name="conformance_status" id="txtconformanceStatus" readonly>
+                              <input type="text" class="form-control" name="generated_jo_no" id="txtCompetedJoNo" readonly>
+
+                              </div>
+                          </div>
+                          </div>    
+                      </div>
+                      <div class="col-sm-6">
+
+                      </div>
+                      
+                      <div class="col-sm-6">
+                          <!--EQUIPMENT NAME-->
+                          <div class="row">
+                          <div class="col">
+                              <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                                  <span class="input-group-text w-100" id="basic-addon1">EQUIPMENT NAME</span>
+                              </div>
+                              
+                              <input type="text" class="form-control" id="txtCompleteEquipName" name="equipment_name" readonly>
+
+                              </div>
+                          </div>
+                          </div>
+
+                          <!--REQUESTOR-->
+                          <div class="row">
+                          <div class="col">
+                              <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                                  <span class="input-group-text w-100" id="basic-addon1">Requestor</span>
+                              </div>
+                              <input type="hidden" class="form-control" name="requestor_id" id="txtCCompleteRequestorId" readonly>
+                              <input type="text" class="form-control" name="requestor" id="txtCCompleteRequestor" readonly>
+                              </div>
+                          </div>
+                          </div>
+
+                          <!--DEPARTMENT-->
+                          <div class="row">
+                          <div class="col">
+                              <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                                  <span class="input-group-text w-100" id="basic-addon1">Department</span>
+                              </div>
+                              
+                              <input type="text" class="form-control" name="department" id="txtCCompleteDepartment" readonly>
+
+                              </div>
+                          </div>
+                          </div>
+
+                      <!--ALLOCATED BUDGET-->
+                      <div class="row">
+                          <div class="col">
+                          <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                              <span class="input-group-text w-100" id="basic-addon1">ALLOCATED BUDGET</span>
+                              </div>
+
+                              <input type="text" class="form-control" id="txtCCompleteBudgetType" name="allocated_budget_type" readonly>
+                              <input type="text" class="form-control" id="txtCCompleteAllocatedBudget" name="allocated_budget" readonly>
+
+                          </div>
+                          </div>
+                      </div>
+
+                          <!--Attachment-->
+                          <div class="row">
+                          <div class="col">
+                              <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                                  <span class="input-group-text w-100" id="basic-addon1">Attachment</span>              
+                              </div>    
+                              <div class="input-group-prepend w-50">   
+                                  {{-- <span class="input-group-text w-100" name="attachment" id="txtAttachmentFileName"></span>    --}}
+                                  <input type="text" class="form-control" name="attachment" id="txtCCompleteAttachmentFileName" readonly>
+                              </div>                        
+                              </div>
+                          </div>
+                          </div>
+
+                          <!--JO REQUEST CHECKER-->
+                          <div class="row">
+                          <div class="col">
+                              <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                                  <span class="input-group-text w-100" id="basic-addon1">CHECKER</span>
+                              </div>                  
+                              <input type="text" class="form-control sel-checked-by" name="jo_checker" id="txtCCompleteCheckedBy" readonly>
+                              </div>
+                          </div>
+                          </div>
+
+                          <!--JO REQUEST APPROVER-->
+                          <div class="row">
+                          <div class="col">
+                              <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                                  <span class="input-group-text w-100" id="basic-addon1">Approver</span>
+                              </div>                  
+                              <!-- Conformed By -->
+                              {{-- <input type="text" class="form-control" name="approver" id="txtCCompleteApprover" readonly> --}}
+                              <!-- Conformed By -->
+                              <input type="text" class="form-control sel-checked-by" name="jo_request_approver" id="txtCCompleteApproverName" readonly>
+                              </div>
+                          </div>
+                          </div>
+
+                      </div>
+
+                      <div class="col-sm-6">
+                      <!--EQUIPMENT NO-->
+                      <div class="row">
+                          <div class="col">
+                          <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                              <span class="input-group-text w-100" id="basic-addon1">EQUIPMENT NUMBER</span>
+                              </div>
+                              
+                              <input type="text" class="form-control sel-rapidx-section-heads" id="txtCompleteEquipNumber" name="equipment_number"readonly>
+
+                          </div>
+                          </div>
+                      </div>
+
+                      <!--DATE PREPARED-->
+                      <div class="row">
+                          <div class="col">
+                          <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                              <span class="input-group-text w-100" id="basic-addon1">Date Prepared</span>
+                              </div>
+                              
+                              <input type="text" class="form-control" name="date_prepared" id="txtCCompleteDatePrepared" readonly>
+
+                          </div>
+                          </div>
+                      </div>    
+                      
+                      <!--Place to conduct JO-->
+                      <div class="row">
+                          <div class="col">
+                          <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                              <span class="input-group-text w-100" id="basic-addon1">FACTORY CLASSIFICATION</span>
+                              </div>
+                              <input type="text" class="form-control" name="factory_classification" id="txtCCompleteFactoryClassification" readonly>
+                          </div>
+                          </div>
+                      </div> 
+
+                      <!--JOB DESCRIPTION-->
+                      <div class="row">
+                          <div class="col">
+                          <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                              <span class="input-group-text w-100" id="basic-addon1">JOB DESCRIPTION</span>
+                              </div>
+                              <textarea class="form-control" id="txtCCompleteJoDescription" name="jo_description" rows="4" style="resize: none;" readonly></textarea> 
+                          </div>
+                          </div>
+                      </div>   
+
+                      <!--INITIAL ACTION-->
+                      <div class="row">
+                          <div class="col">
+                          <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                              <span class="input-group-text w-100" id="basic-addon1">INITIAL ACTION</span>
+                              </div>
+                              
+                              <textarea class="form-control" id="txtCCompleteInitialAction" name="initial_action" rows="4" style="resize: none;" readonly></textarea> 
+
+                          </div>
+                          </div>
+                      </div> 
+                      </div>          
+                  </div>
+                  
+              {{-- CONFORMANCE DETAILS  --}}
+              <div class="row">
+                <div class="col-sm-6">
+                    <h1 style="font-size: 1.2rem;"><b>Conformance Details (FAS)</b></h1>
+                </div>          
+            </div>   
+              
+            <div class="row">
+                <div class="col-sm-6">     
+        
+                    <!--FAS Engineer Assigned-->
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend w-50">
+                                <span class="input-group-text w-100" id="basic-addon1">FAS Engineer Assigned:</span>
+                                </div>
+                                <select class="form-control sel-assign-fas" style="pointer-events: none;" id="txtCompleteFasEngrAssigned" name="fas_engr_assigned" readonly>
+                                    <option value="0">-- Assign Engineer --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> 
+        
+                    <!--JO Classification.-->
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend w-50">
+                                <span class="input-group-text w-100" id="basic-addon1">Job Order Classification</span>
+                            </div>
+                                <select class="form-control" name="conformace_classification" id="txtCompleteFasClassification" disabled>
+                                    <option value="0" selected disabled>-- Select Type --</option>
+                                    <option value="1">Machine Repair and Troubleshooting</option>
+                                    <option value="2">Machine/Equipment Modification</option>
+                                    <option value="3">Machine/Equipment Development</option>
+                                    <option value="4">Program/Software Development</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend w-50">
+                                <span class="input-group-text w-100" id="basic-addon1">Recommendation</span>
+                                </div>
+                                <div style="margin-left: 1rem;" class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="recommendation" id="txtCompleteRecommendation1" value="1" disabled>
+                                        <label class="form-check-label" for="txtCompleteRecommendation1">
+                                            Internal Job by FAS
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="recommendation" id="txtCompleteRecommendation2" value="2" disabled>
+                                        <label class="form-check-label" for="txtCompleteRecommendation2">
+                                            Need External Supplier
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="recommendation" id="txtCompleteRecommendation3" value="3" disabled>
+                                        <label class="form-check-label" for="txtCompleteRecommendation3">
+                                            Others
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-control-input" type="text" name="others_recommendation" id="txtCompleteOthersRecommendation" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>    
+                
+                <div class="col-sm-6">
+                       <!--FAS Assessment-->
+                       <div class="row">
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend w-50">
+                                <span class="input-group-text w-100" id="basic-addon1">FAS Assessment</span>
+                                </div>
+                                <textarea class="form-control" name="fas_assessment" id="txtCompleteFasAssessment" rows="3" style="resize: none;" readonly></textarea>
+                            </div>
+                        </div>
+                      </div> 
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend w-50">
+                                <span class="input-group-text w-100" id="basic-addon1">Estimated Completion Date</span>
+                                </div>
+                                <input  class="form-control" type="date" id="txtCompleteEstimatedCompletionDate" name="completion_date" readonly>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend w-50">
+                                <span class="input-group-text w-100" id="basic-addon1">Estimated Cost</span>
+                                </div>
+
+                                <select class="form-control" id="txtCompleteEstimatedTypeId" name="estimated_type" readonly>
+                                  <option value="0" selected disabled>-- Select Type --</option>
+                                  <option value="1">$</option>
+                                  <option value="2">PHP</option>
+                                </select> 
+            
+                                <input type="number" class="form-control" id="txtCompleteEstimatedCost" name="estimated_cost" readonly>
+                                {{-- <input class="form-control" type="text" name="estimated_cost" id="txtEstimatedCost" readonly> --}}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--Remarks-->
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend w-50">
+                                <span class="input-group-text w-100" id="basic-addon1">Remarks</span>
+                                </div>
+                                <textarea class="form-control" name="conformance_remarks" id="txtCompleteFasRemarks" rows="3" style="resize: none;" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <!--KTE Disconfirm Remarks-->
+                    <div id="kteCompletedDisconfirmRemarksID" class="row" hidden>
+                      <div class="col">
+                          <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                              <span class="input-group-text w-100" id="basic-addon1">KTE Disconfirm Remarks</span>
+                              </div>
+                              <textarea class="form-control" name="kte_disconfirm_remarks" id="txtCompleteKTEDisconfirmRemarks" rows="3" style="resize: none;" readonly></textarea>
+                          </div>
+                      </div>
+                    </div>  
+
+                   <!--JCP Disconfirm Remarks-->
+                   <div id="jcpCompletedDisconfirmRemarksID" class="row" hidden>
+                      <div class="col">
+                          <div class="input-group input-group-sm mb-3">
+                              <div class="input-group-prepend w-50">
+                              <span class="input-group-text w-100" id="basic-addon1">JCP Disconfirm Remarks</span>
+                              </div>
+                              <textarea class="form-control" name="jcp_disconfirm_remarks" id="txtCompleteJCPDisconfirmRemarks" rows="3" style="resize: none;" readonly></textarea>
+                          </div>
+                      </div>
+                    </div>  
+
+                    <!--NCP Disconfirm Remarks-->
+                   <div id="NCPCompletedDisconfirmRemarksID" class="row" hidden>
+                    <div class="col">
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend w-50">
+                            <span class="input-group-text w-100" id="basic-addon1">NCP Disconfirm Remarks</span>
+                            </div>
+                            <textarea class="form-control" name="ncp_disconfirm_remarks" id="txtCompleteNCPDisconfirmRemarks" rows="3" style="resize: none;" readonly></textarea>
+                        </div>
+                    </div>
+                  </div>  
+
+                </div>
+            </div>       
+          </div> 
+        </form>
+      </div>
+  </div>
+</div>
+
 @endsection
 
 @section('js_content')
@@ -1895,7 +2284,25 @@
       });
 
       $(document).on('click', '.btn-viewComplete-requests', function(e){
-        alert('viewing');
+        // alert('viewing');;
+        let requestID = $(this).attr('requests-id');
+
+        console.log('requestID', requestID);
+
+        getDataOfCompletedJORequest(requestID);
+        LoadRapidXUserListSectionHead($('.sel-rapidx-section-heads'));
+        loadKakampinkDetails($('.sel-checked-by'));
+        loadFasEngineers($('.sel-assign-fas'));
+
+      });
+
+      $('#modalAddUser').on('hidden.bs.modal', function() {
+      // Reset the form fields
+          $('#formViewCompleteRequest')[0].reset();
+          
+          // Optionally, clear other dynamic elements or states
+          // For example, if you have select elements, you can reset them:
+          // $('#yourSelectElement').val('').trigger('change');
       });
 
   });

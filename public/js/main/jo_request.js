@@ -496,4 +496,89 @@ function getJORequestDetailsToApprove(requestId){
         }
     });
 }
+
+function getDataOfCompletedJORequest(requestId){
+    $.ajax({
+        type: "get",
+        url: "get_completed_jo_request_details",
+        data: {
+            "jo_id" : requestId,
+        },
+        dataType: "json",
+        success: function (response) {
+            if(response['completedJoRequestDetails'].length == 1){
+
+                $('#txtCompetedJoNo').val(response['completedJoRequestDetails'][0]['jo_ctrl_no'])
+                $('#txtCompleteEquipName').val(response['completedJoRequestDetails'][0]['equipment_name'])
+                $('#txtCCompleteRequestor').val(response['completedJoRequestDetails'][0]['rapidx_user_details']['name'])
+                $('#txtCCompleteDepartment').val(response['completedJoRequestDetails'][0]['department'])
+                $('#txtCCompleteAllocatedBudget').val(response['completedJoRequestDetails'][0]['allocated_budget'])
+
+                $('#txtCompleteEquipNumber').val(response['completedJoRequestDetails'][0]['equipment_no'])
+                $('#txtCCompleteDatePrepared').val(response['completedJoRequestDetails'][0]['date_filed'])
+                $('#txtCCompleteJoDescription').val(response['completedJoRequestDetails'][0]['job_description'])
+                $('#txtCCompleteInitialAction').val(response['completedJoRequestDetails'][0]['initial_action'])
+
+                if(response['completedJoRequestDetails'][0]['orig_name'] != null){
+                    $('#txtCCompleteAttachmentFileName').val(response['completedJoRequestDetails'][0]['orig_name']);
+                }else{
+                    $('#txtCCompleteAttachmentFileName').val('---');
+                }
+
+                $('#txtCCompleteFactoryClassification').val(response['completedJoRequestDetails'][0]['factory_classification']).trigger('change');
+                if(response['completedJoRequestDetails'][0]['currency'] == 1){
+                    $('#txtCCompleteBudgetType').val('$');
+                }else{
+                    $('#txtCCompleteBudgetType').val('PHP');
+                }
+
+                setTimeout(() => {
+                    $('#txtCCompleteCheckedBy').val(response['completedJoRequestDetails'][0]['user_access_details']['rapidx_user_details']['name']);
+                    $('#txtCCompleteApproverName').val(response['completedJoRequestDetails'][0]['rapidx_section_head_details']['name']);
+                    $('#txtCompleteFasEngrAssigned').val(response['completedJoRequestDetails'][0]['jo_requests_conformance']['assessed_by']).trigger('change');
+                }, 500);
+
+                
+                $('#txtCompleteFasClassification').val(response['completedJoRequestDetails'][0]['jo_requests_conformance']['job_classification']).trigger('change');
+                $('#txtCompleteFasAssessment').val(response['completedJoRequestDetails'][0]['jo_requests_conformance']['fas_assessment']);
+                $('#txtCompleteEstimatedCompletionDate').val(response['completedJoRequestDetails'][0]['jo_requests_conformance']['estimated_completion_date']);
+                $('#txtCompleteEstimatedTypeId').val(response['completedJoRequestDetails'][0]['jo_requests_conformance']['estimated_type']);
+                $('#txtCompleteEstimatedCost').val(response['completedJoRequestDetails'][0]['jo_requests_conformance']['estimated_cost']);
+                $('#txtCompleteFasRemarks').val(response['completedJoRequestDetails'][0]['jo_requests_conformance']['conformance_remarks']);
+
+                if(response['completedJoRequestDetails'][0]['jo_requests_conformance']['recommendation'] == 3){
+                    $('input[name="recommendation"][value="3"]').prop('checked', true);
+                    $('#txtCompleteOthersRecommendation').val(response['conformanceDetails'][0]['others_recommendation']);
+                }else if(response['completedJoRequestDetails'][0]['jo_requests_conformance']['recommendation'] == 2){
+                    $('input[name="recommendation"][value="2"]').prop('checked', true);
+                }else if(response['completedJoRequestDetails'][0]['jo_requests_conformance']['recommendation'] == 1){
+                    $('input[name="recommendation"][value="1"]').prop('checked', true);
+                }
+
+                
+
+                if(response['completedJoRequestDetails'][0]['jo_requests_conformance']['initial_disapproval_remarks'] != null){
+                    $('#kteCompletedDisconfirmRemarksID').prop('hidden', false);
+                    $('#txtCompleteKTEDisconfirmRemarks').val(response['completedJoRequestDetails'][0]['jo_requests_conformance']['initial_disapproval_remarks']);
+                }else{
+                    $('#kteCompletedDisconfirmRemarksID').prop('hidden', true);
+                }
+
+                if(response['completedJoRequestDetails'][0]['jo_requests_conformance']['final_approval_1_disapproval_remarks'] != null){
+                    $('#jcpCompletedDisconfirmRemarksID').prop('hidden', false);
+                    $('#txtCompleteJCPDisconfirmRemarks').val(response['completedJoRequestDetails'][0]['jo_requests_conformance']['final_approval_1_disapproval_remarks']);
+                }else{
+                    $('#jcpCompletedDisconfirmRemarksID').prop('hidden', true);
+                }
+                if(response['completedJoRequestDetails'][0]['jo_requests_conformance']['final_approval_2_disapproval_remarks'] != null){
+                    $('#NCPCompletedDisconfirmRemarksID').prop('hidden', false);
+                    $('#txtCompleteNCPDisconfirmRemarks').val(response['completedJoRequestDetails'][0]['jo_requests_conformance']['final_approval_2_disapproval_remarks']);
+                }else{
+                    $('#NCPCompletedDisconfirmRemarksID').prop('hidden', true);
+
+                }
+            }
+        }
+    });
+}
 // 

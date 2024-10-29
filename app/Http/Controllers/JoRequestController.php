@@ -150,6 +150,9 @@ class JoRequestController extends Controller
                             $result .= '<center>';
                             $result .= ' <button type="button" class="btn btn-sm btn-info btn-conform-requests" data-toggle="modal" data-target="#modalConformRequest" title="Assign Engineer" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
                             $result .= '</center>';
+                        }else{
+                            // $result .= ' <button type="button" class="btn btn-sm btn-success btn-viewComplete-requests" data-bs-toggle="modal" data-bs-target="#modalViewCompleteRequest" title="View Complete Request" requests-id="' . $jo_request_details->id . '"><i class="fa fa-eye"></i></button>';
+
                         }
                     }
                 }
@@ -181,7 +184,7 @@ class JoRequestController extends Controller
 
                     if($jo_request_details->jo_requests_conformance->conformance_status == 11){
                         $result .= '<center>';
-                            $result .= ' <button type="button" class="btn btn-sm btn-success btn-viewComplete-requests" data-toggle="modal" data-target="#modalViewCompleteRequest" title="View Complete Request" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-eye"></i></button>';
+                            $result .= ' <button type="button" class="btn btn-sm btn-success btn-viewComplete-requests" data-bs-toggle="modal" data-bs-target="#modalViewCompleteRequest" title="View Complete Request" requests-id="' . $jo_request_details->id . '"><i class="fa fa-eye"></i></button>';
                         $result .= '</center>';
                     } 
                 }
@@ -879,6 +882,25 @@ class JoRequestController extends Controller
 
         $completedJoRequest = count($completedJoRequest);
         return response()->json(['completedJoRequest' => $completedJoRequest]);
+    }
+
+    public function getCompletedJoRequestDetails(Request $request){
+        $completedJoRequestDetails = JORequest::
+        with([   
+        'rapidx_user_details',
+        'rapidx_section_head_details',
+        'user_access_details.rapidx_user_details',
+        'jo_requests_conformance',
+        'jo_requests_conformance.rapidx_user_details'
+        ])
+        ->where('id', $request->jo_id )
+        ->where('logdel', 0 )
+        ->where('status', 3)
+        ->get();
+
+        // return $completedJoRequestDetails;
+
+        return response()->json(['completedJoRequestDetails' => $completedJoRequestDetails]);
     }
 
     // 
