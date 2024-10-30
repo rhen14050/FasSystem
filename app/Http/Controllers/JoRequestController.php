@@ -114,22 +114,22 @@ class JoRequestController extends Controller
                     if($jo_request_details->jo_requests_conformance != ''){
                         if($jo_request_details->jo_requests_conformance->conformance_status == 0){     
                             if ($jo_request_details->jo_requests_conformance->assessed_by == $rapidx_user_id) { // ENGINEERING UPDATE
-                                $result .= ' <button type="button" class="btn btn-sm btn-info btn-conform-requests" data-toggle="modal" data-target="#modalConformRequest" title="Engineering Update" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
+                                $result .= ' <button type="button" class="btn btn-sm btn-info btn-conform-requests" title="Engineering Update" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
                             }                       
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 1){
                             if($rapidx_user_id == 97){ // KTE
-                                $result .= ' <button type="button" class="btn btn-sm btn-primary btn-conform-requests" data-toggle="modal" data-target="#modalConformRequest" title="Conform request by KTE" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
+                                $result .= ' <button type="button" class="btn btn-sm btn-primary btn-conform-requests" title="Conform request by KTE" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
                             }
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 2){
                             // if($rapidx_user_id == 147){ // JCP Conformance
-                                $result .= ' <button type="button" class="btn btn-sm btn-secondary btn-conform-requests" data-toggle="modal" data-target="#modalConformRequest" title="Conform request by JCP" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
+                                $result .= ' <button type="button" class="btn btn-sm btn-secondary btn-conform-requests" title="Conform request by JCP" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
                             // }
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 3){
                             // if ($rapidx_user_id== 1627) { // for NCP 
-                                $result .= ' <button type="button" class="btn btn-sm btn-primary btn-conform-requests" data-toggle="modal" data-target="#modalConformRequest" title="Conform request by NCP" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
+                                $result .= ' <button type="button" class="btn btn-sm btn-primary btn-conform-requests" title="Conform request by NCP" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
                             // }
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 4){
@@ -140,20 +140,20 @@ class JoRequestController extends Controller
                         if($jo_request_details->jo_requests_conformance->conformance_status == 5 || $jo_request_details->jo_requests_conformance->conformance_status == 6 || $jo_request_details->jo_requests_conformance->conformance_status == 7){     
                             // if ($jo_request_details->jo_requests_conformance->assessed_by == $rapidx_user_id) { // ENGINEERING UPDATE
                                 $result .= '<center>';
-                                $result .= ' <button type="button" class="btn btn-sm btn-primary btn-conform-requests" data-toggle="modal" data-target="#modalConformRequest" title="Engineering Update" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
+                                $result .= ' <button type="button" class="btn btn-sm btn-primary btn-conform-requests" title="Engineering Update" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
                                 $result .= '</center>';
                             // }                       
                         }
                     
                     }else{
-                        if($rapidx_user_id == 97){ // ASSIGNING OF ENGINEERS BUTTON
+                        // if($rapidx_user_id == 97){ // ASSIGNING OF ENGINEERS BUTTON
                             $result .= '<center>';
-                            $result .= ' <button type="button" class="btn btn-sm btn-info btn-conform-requests" data-toggle="modal" data-target="#modalConformRequest" title="Assign Engineer" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
+                            $result .= ' <button type="button" class="btn btn-sm btn-info btn-conform-requests" title="Assign Engineer" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
                             $result .= '</center>';
-                        }else{
+                        // }else{
                             // $result .= ' <button type="button" class="btn btn-sm btn-success btn-viewComplete-requests" data-bs-toggle="modal" data-bs-target="#modalViewCompleteRequest" title="View Complete Request" requests-id="' . $jo_request_details->id . '"><i class="fa fa-eye"></i></button>';
 
-                        }
+                        // }
                     }
                 }
                 else if($jo_request_details->status == 3){
