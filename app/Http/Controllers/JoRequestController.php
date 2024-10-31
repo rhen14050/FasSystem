@@ -49,8 +49,8 @@ class JoRequestController extends Controller
                 'jo_requests_conformance.rapidx_user_details'
             ])
             // ->orderBy('id', 'desc')
-            ->orderBy('jo_ctrl_no', 'desc')
-            // ->orderBy('status', 'desc')
+            // ->orderBy('jo_ctrl_no', 'desc')
+            ->orderBy('status', 'asc')
             ->get();
         }else{
             $jo_request_details = JoRequest::with([
@@ -69,7 +69,8 @@ class JoRequestController extends Controller
             })
             // ->orWhere('user_id', 97) // Add this line
             // ->orderBy('id', 'desc')
-            ->orderBy('jo_ctrl_no', 'desc')
+            ->orderBy('status', 'asc')
+            // ->orderBy('jo_ctrl_no', 'desc')
             ->get();
         }
         
@@ -123,66 +124,66 @@ class JoRequestController extends Controller
                             }
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 2){
-                            // if($rapidx_user_id == 147){ // JCP Conformance
+                            if($rapidx_user_id == 147){ // JCP Conformance
                                 $result .= ' <button type="button" class="btn btn-sm btn-secondary btn-conform-requests" title="Conform request by JCP" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
-                            // }
+                            }
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 3){
-                            // if ($rapidx_user_id== 1627) { // for NCP 
+                            if ($rapidx_user_id== 1627) { // for NCP 
                                 $result .= ' <button type="button" class="btn btn-sm btn-primary btn-conform-requests" title="Conform request by NCP" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
-                            // }
+                            }
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 4){
-                            // if ($jo_request_details->jo_requests_conformance->assessed_by == $rapidx_user_id) { //CLOSING OF JO
+                            if ($jo_request_details->jo_requests_conformance->assessed_by == $rapidx_user_id) { //CLOSING OF JO
                                 $result .= ' <button type="button" class="btn btn-sm btn-success btn-complete-requests" data-toggle="modal" data-target="#modalCompleteRequest" title="Complete request" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-check"></i></button>';
-                            // }
+                            }
                         } 
                         if($jo_request_details->jo_requests_conformance->conformance_status == 5 || $jo_request_details->jo_requests_conformance->conformance_status == 6 || $jo_request_details->jo_requests_conformance->conformance_status == 7){     
-                            // if ($jo_request_details->jo_requests_conformance->assessed_by == $rapidx_user_id) { // ENGINEERING UPDATE
+                            if ($jo_request_details->jo_requests_conformance->assessed_by == $rapidx_user_id) { // ENGINEERING UPDATE
                                 $result .= '<center>';
                                 $result .= ' <button type="button" class="btn btn-sm btn-primary btn-conform-requests" title="Engineering Update" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
                                 $result .= '</center>';
-                            // }                       
+                            }                       
                         }
                     
                     }else{
-                        // if($rapidx_user_id == 97){ // ASSIGNING OF ENGINEERS BUTTON
+                        if($rapidx_user_id == 97){ // ASSIGNING OF ENGINEERS BUTTON
                             $result .= '<center>';
                             $result .= ' <button type="button" class="btn btn-sm btn-info btn-conform-requests" title="Assign Engineer" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
                             $result .= '</center>';
-                        // }else{
+                        }else{
                             // $result .= ' <button type="button" class="btn btn-sm btn-success btn-viewComplete-requests" data-bs-toggle="modal" data-bs-target="#modalViewCompleteRequest" title="View Complete Request" requests-id="' . $jo_request_details->id . '"><i class="fa fa-eye"></i></button>';
-
-                        // }
+                        }
                     }
                 }
                 else if($jo_request_details->status == 3){
-                    // view only
-                    if($jo_request_details->jo_requests_conformance->conformance_status == 8){
-                        // if ($jo_request_details->jo_requests_conformance->assessed_by == $rapidx_user_id) { //CHECK OF JO
-                            $result .= '<center>';
-                            $result .= ' <button type="button" class="btn btn-sm btn-success btn-checkedtoComplete-requests" data-toggle="modal" data-target="#modalCheckRequest" title="Check request" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-check"></i></button>';
-                            $result .= '</center>';
-                        // }
-                    } 
+                    // commented 10/30/24 *due to removal of checking for completion as per KTE
 
-                    if($jo_request_details->jo_requests_conformance->conformance_status == 9){
-                        // if($rapidx_user_id == 97){ // KTE //APPROVE OF JO
+                    // if($jo_request_details->jo_requests_conformance->conformance_status == 8){
+                    //     // if ($jo_request_details->jo_requests_conformance->assessed_by == $rapidx_user_id) { //CHECK OF JO
+                    //         $result .= '<center>';
+                    //         $result .= ' <button type="button" class="btn btn-sm btn-success btn-checkedtoComplete-requests" data-toggle="modal" data-target="#modalCheckRequest" title="Check request" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-check"></i></button>';
+                    //         $result .= '</center>';
+                    //     // }
+                    // } 
+
+                    if($jo_request_details->jo_requests_conformance->conformance_status == 8){
+                        if($rapidx_user_id == 97){ // KTE //APPROVE OF JO
                             $result .= '<center>';
                             $result .= ' <button type="button" class="btn btn-sm btn-success btn-apprvToComplete-requests" data-toggle="modal" data-target="#modalApprToCompleteRequest" title="Approve to complete request" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-check"></i></button>';
                             $result .= '</center>';
-                        // }
+                        }
                     } 
 
-                    if($jo_request_details->jo_requests_conformance->conformance_status == 10){
-                        // if ($jo_request_details->user_id == $rapidx_user_id) { // JO CONFORMANCE FOR COMPLETION
+                    if($jo_request_details->jo_requests_conformance->conformance_status == 9){
+                        if ($jo_request_details->user_id == $rapidx_user_id) { // JO CONFORMANCE FOR COMPLETION
                             $result .= '<center>';
                             $result .= ' <button type="button" class="btn btn-sm btn-success btn-conformToComplete-requests" data-toggle="modal" data-target="#modalApprToCompleteRequest" title="Conform to complete request" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-check"></i></button>';
                             $result .= '</center>';
-                        // }
+                        }
                     } 
 
-                    if($jo_request_details->jo_requests_conformance->conformance_status == 11){
+                    if($jo_request_details->jo_requests_conformance->conformance_status == 10){
                         $result .= '<center>';
                             $result .= ' <button type="button" class="btn btn-sm btn-success btn-viewComplete-requests" data-bs-toggle="modal" data-bs-target="#modalViewCompleteRequest" title="View Complete Request" requests-id="' . $jo_request_details->id . '"><i class="fa fa-eye"></i></button>';
                         $result .= '</center>';
@@ -824,25 +825,27 @@ class JoRequestController extends Controller
 
         return response()->json(['result' => "1"]);                                                                                                                                                                                                                                                          
     }
+    
+    // commented 10/30/24 *due to removal of checking for completion as per KTE
 
-    public function checkedJoRequestForCompletion(Request $request){
-        $data = $request->all();
-        // return $data;
-        JoRequestConformance::where('jo_request_id', $request->request_id)
-        ->update([
-            'conformance_status' => 9,
-            'completion_check_datetime' => date('Y-m-d H:i:s'),
-        ]);    
+    // public function checkedJoRequestForCompletion(Request $request){
+    //     $data = $request->all();
+    //     // return $data;
+    //     JoRequestConformance::where('jo_request_id', $request->request_id)
+    //     ->update([
+    //         'conformance_status' => 9,
+    //         'completion_check_datetime' => date('Y-m-d H:i:s'),
+    //     ]);    
 
-        return response()->json(['result' => "1"]);                                                                                                                                                                                                                                                          
-    }
+    //     return response()->json(['result' => "1"]);                                                                                                                                                                                                                                                          
+    // }
 
     public function approvedJoToComplete(Request $request){
         $data = $request->all();
         // return $data;
         JoRequestConformance::where('jo_request_id', $request->request_id)
         ->update([
-            'conformance_status' => 10,
+            'conformance_status' => 9,
             'completion_approve_datetime' => date('Y-m-d H:i:s'),
         ]);    
 
@@ -853,7 +856,7 @@ class JoRequestController extends Controller
         $data = $request->all();
 
         $conformanceToComplete = array(
-            'conformance_status' => 11,
+            'conformance_status' => 10,
             'requestor_conformance_remarks' => $request->remarks,
             'requestor_conformance_datettime' => date('Y-m-d H:i:s'),
         );

@@ -47,6 +47,10 @@
 <script src="{{ asset('public/js/main/User.js') }}" async></script>
 <script src="{{ asset('public/js/main/jo_request.js')}}" async></script>
 <script src="{{ asset('public/js/main/jo_request_conformance.js')}}" async></script>
+
+<!-- Datepicker -->
+<script src="{{ asset('public/js/main/bootstrap-datepicker.min.js') }}"></script>
+
 {{-- <script src="{{ asset('public/js/main/UserLevel.js') }}" async></script> --}}
 
 

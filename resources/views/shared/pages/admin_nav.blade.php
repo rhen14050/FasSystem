@@ -52,8 +52,11 @@
                                         <p>User</p>
                                     </a>
                                 </ul>
+
+
                             @endif
-                           
+
+                            
 
                             <ul class="nav-item nav-treeview"> 
                                 <a href="{{ route("jo_request") }}" class="nav-link">
@@ -61,6 +64,15 @@
                                     <p>JO Requests</p>
                                 </a>
                             </ul>
+
+                            @if (in_array($_SESSION['fas_section'], ['ISS', 'FAS']) || in_array($_SESSION['fas_access_level'], [3]))
+                                <ul class="nav-item nav-treeview"> 
+                                    <a href="{{ route("jo_request_report") }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon ml-1"> </i>
+                                        <p>Generate Report</p>
+                                    </a>
+                                </ul>
+                            @endif
 
                             {{-- <ul class="nav-item nav-treeview"> 
                                 <a href="{{ route("jo_request_conformance") }}" class="nav-link">

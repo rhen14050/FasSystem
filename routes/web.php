@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\UserAccessController;
 use App\Http\Controllers\JoRequestController;
+use App\Http\Controllers\UserAccessController;
+use App\Http\Controllers\ExportJoRequestController;
 use App\Http\Controllers\JoRequestConformanceController;
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,10 @@ Route::middleware('CheckSession')->group(function(){
     Route::get('/jo_request_conformance', function () {
         return view('jo_request_conformance');
     })->name('jo_request_conformance');
+
+    Route::get('/jo_request_report', function () {
+        return view('jo_request_report');
+    })->name('jo_request_report');
 
     Route::get('/user_access', function () {
         return view('user_access');
@@ -81,6 +86,11 @@ Route::middleware('CheckSession')->group(function(){
         Route::post('/add_conformance_details', 'conformJoRequest')->name('add_conformance_details');
         // Route::post('/add_engineer', 'addEngineer')->name('add_engineer');
 
+    });
+
+    //EXPORT JO REQUEST REPORT
+    Route::controller(ExportJoRequestController::class)->group(function () {
+        Route::get('/export_jo_request/{date_from}/{date_to}', 'exportJoRequestReport')->name('export_jo_request');
     });
 
     // 

@@ -30,3 +30,6 @@
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{{ asset('public/css/custom.css') }}">
+
+<!-- Bootstrap Datetimepicker -->
+<link rel="stylesheet" href="{{ asset('public/css/datepicker.css') }}">
