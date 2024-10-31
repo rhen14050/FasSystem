@@ -35,16 +35,16 @@ class JoRequestDataCountPerClassification implements  FromView, WithTitle, WithE
 
     use Exportable;
 
-    // protected $date;
+    protected $classificationCount;
 
     //
     function __construct(
-        // $date,
+        $classificationCount
 
     )
 
     {
-        // $this->date = $date;
+        $this->classificationCount = $classificationCount;
     }
 
 
@@ -63,7 +63,7 @@ class JoRequestDataCountPerClassification implements  FromView, WithTitle, WithE
 
         public function registerEvents(): array
         {
-            // $data = $this->per_hour;
+            $classificationCount = $this->classificationCount;
 
             $arial_font13 = array(
                 'font' => array(
@@ -188,9 +188,50 @@ class JoRequestDataCountPerClassification implements  FromView, WithTitle, WithE
                     $arial_font12_bold,
                     $arial_font12,
                     $calibri_font9_nb,
-                    $calibri_font8_nb
+                    $calibri_font8_nb,
+                    $classificationCount
                 ) {
-                 // code here
+                    $event->sheet->getColumnDimension('A')->setWidth(45);
+
+                    $classificationCounter = [];
+                    $classificationsArray = [];
+
+                    // Count occurrences of each department
+                    for ($i = 0; $i < count($classificationCount); $i++) {
+                        $classification = trim($classificationCount[$i]['job_classification']); // Remove any extra whitespace
+                        if (isset($classificationCounter[$classification])) {
+                            $classificationCounter[$classification]++;
+                        } else {
+                            $classificationCounter[$classification] = 1;
+                            $classificationsArray[] = $classification; // Store unique department names
+                        }
+                    }
+
+                    // Write to the Excel sheet
+                    $start_col = 2;
+                    $event->sheet->setCellValue('A1', 'Classification');
+                    $event->sheet->setCellValue('B1', 'Count');
+
+                    for ($i = 0; $i < count($classificationsArray); $i++) {
+                        $event->sheet->getDelegate()->getStyle('A1:B'.$start_col)->applyFromArray($styleBorderAll);
+                        $event->sheet->getDelegate()->getStyle('A1:B'.$start_col)->applyFromArray($hv_center);
+                        $event->sheet->getDelegate()->getStyle('A1:B'.$start_col)->getAlignment()->setWrapText(true);
+
+                        $classification = $classificationsArray[$i];
+                        $count = $classificationCounter[$classification];
+                        if($classification == 1){
+                            $class = 'Machine Repair and Troubleshooting';
+                        }else if($classification == 2){
+                            $class = 'Machine/Equipment Modification';
+                        }else if($classification == 3){
+                            $class = 'Machine/Equipment Development';
+                        }else if($classification == 4){
+                            $class = 'Program/Software Development';
+                        }
+                        $event->sheet->setCellValue('A' . $start_col, $class);
+                        $event->sheet->setCellValue('B' . $start_col, $count);
+                        $start_col++;
+                    }
 
                 },
             ];

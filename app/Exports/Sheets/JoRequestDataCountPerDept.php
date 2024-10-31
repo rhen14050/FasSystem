@@ -35,16 +35,15 @@ class JoRequestDataCountPerDept implements  FromView, WithTitle, WithEvents
 
     use Exportable;
 
-    // protected $date;
+    protected $deptCount;
 
     //
     function __construct(
-        // $date,
-
+        $deptCount
     )
 
     {
-        // $this->date = $date;
+        $this->deptCount = $deptCount;
     }
 
 
@@ -63,7 +62,7 @@ class JoRequestDataCountPerDept implements  FromView, WithTitle, WithEvents
 
         public function registerEvents(): array
         {
-            // $data = $this->per_hour;
+            $deptCount = $this->deptCount;
 
             $arial_font13 = array(
                 'font' => array(
@@ -188,10 +187,42 @@ class JoRequestDataCountPerDept implements  FromView, WithTitle, WithEvents
                     $arial_font12_bold,
                     $arial_font12,
                     $calibri_font9_nb,
-                    $calibri_font8_nb
+                    $calibri_font8_nb,
+                    $deptCount
                 ) {
-                 // code here
+                    $event->sheet->getColumnDimension('A')->setWidth(15);
 
+                    $deptCounter = [];
+                    $departmentsArray = [];
+
+                    // Count occurrences of each department
+                    for ($i = 0; $i < count($deptCount); $i++) {
+                        $department = trim($deptCount[$i]['department']); // Remove any extra whitespace
+                        if (isset($deptCounter[$department])) {
+                            $deptCounter[$department]++;
+                        } else {
+                            $deptCounter[$department] = 1;
+                            $departmentsArray[] = $department; // Store unique department names
+                        }
+                    }
+
+                    // Write to the Excel sheet
+                    $start_col = 2;
+                    $event->sheet->setCellValue('A1', 'Department');
+                    $event->sheet->setCellValue('B1', 'Count');
+
+                    for ($i = 0; $i < count($departmentsArray); $i++) {
+                        $event->sheet->getDelegate()->getStyle('A1:B'.$start_col)->applyFromArray($styleBorderAll);
+                        $event->sheet->getDelegate()->getStyle('A1:B'.$start_col)->applyFromArray($hv_center);
+                        $event->sheet->getDelegate()->getStyle('A1:B'.$start_col)->getAlignment()->setWrapText(true);
+
+                        $department = $departmentsArray[$i];
+                        $count = $deptCounter[$department];
+                        $event->sheet->setCellValue('A' . $start_col, $department);
+                        $event->sheet->setCellValue('B' . $start_col, $count);
+                        $start_col++;
+                    }
+                    
                 },
             ];
         }

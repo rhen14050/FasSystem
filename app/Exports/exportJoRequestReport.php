@@ -38,14 +38,16 @@ class exportJoRequestReport implements  WithMultipleSheets
     */
 
     use Exportable;
-    // protected $date;
+    protected $deptCount;
+    protected $classificationCount;
 
 
     function __construct(
-        // $date
-
+        $deptCount,
+        $classificationCount
     ){
-        // $this->date = $date;
+        $this->deptCount = $deptCount;
+        $this->classificationCount = $classificationCount;
     }
 
 
@@ -54,8 +56,8 @@ class exportJoRequestReport implements  WithMultipleSheets
         $sheets = [];
 
         $sheets[] = new JoRequestData();
-        $sheets[] = new JoRequestDataCountPerDept();
-        $sheets[] = new JoRequestDataCountPerClassification();
+        $sheets[] = new JoRequestDataCountPerDept($this->deptCount);
+        $sheets[] = new JoRequestDataCountPerClassification($this->classificationCount);
 
         return $sheets;
     }
