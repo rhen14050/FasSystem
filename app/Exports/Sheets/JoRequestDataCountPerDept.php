@@ -206,7 +206,7 @@ class JoRequestDataCountPerDept implements  FromView, WithTitle, WithEvents
                         }
                     }
 
-                    // Write to the Excel sheet
+                    // Write to the Excel sheet  
                     $start_col = 2;
                     $event->sheet->setCellValue('A1', 'Department');
                     $event->sheet->setCellValue('B1', 'Count');

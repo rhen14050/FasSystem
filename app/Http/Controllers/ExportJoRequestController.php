@@ -13,8 +13,6 @@ use App\Models\JoRequestConformance;
 class ExportJoRequestController extends Controller
 {
     public function exportJoRequestReport(Request $request){
-
-        // return 'asd';
         $deptCount = JoRequest::whereBetween('created_at', [$request->date_from,$request->date_to])
         ->where('status', 3)
         ->get();
@@ -23,6 +21,20 @@ class ExportJoRequestController extends Controller
         // ->where('status', 3)
         ->get();
 
+        $joRequestDetails = JoRequest::with([
+        'rapidx_user_details',
+        'jo_requests_conformance',
+        'jo_requests_conformance.rapidx_user_details'])
+        // ->where('status', 3)
+        ->get();
+
+        $date = now();
+        $date = date_format($date, "mdY");
+
+        // return $date;
+
+        // return $joRequestDetails;
+
         // return count($deptCount);
 
         // return $classificationCount;
@@ -30,8 +42,9 @@ class ExportJoRequestController extends Controller
 
         return Excel::download(new exportJoRequestReport(
             $deptCount,
-            $classificationCount
+            $classificationCount,
+            $joRequestDetails
         ), 
-        'JoRequest.xlsx');
+        'JO Request Report as of '. $date.'.xlsx');
     }
 }
