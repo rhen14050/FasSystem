@@ -2278,7 +2278,7 @@
               }
             });
           }else{
-            alert('wala');
+            // alert('wala');
           }
         });
       });
@@ -2303,6 +2303,13 @@
           // Optionally, clear other dynamic elements or states
           // For example, if you have select elements, you can reset them:
           // $('#yourSelectElement').val('').trigger('change');
+      });
+
+      $(document).on('click', '.btn-downloadPdf-requests', function(e){
+        e.preventDefault();
+        console.log('click');
+        let requestID = $(this).attr('requests-id');
+        window.location.href = `download_jo_request_details_pdf/${requestID}`;
       });
 
   });

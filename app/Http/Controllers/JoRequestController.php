@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
 use DataTables;
 use Auth;
 use Mail;
@@ -185,6 +186,7 @@ class JoRequestController extends Controller
 
                     if($jo_request_details->jo_requests_conformance->conformance_status == 10){
                         $result .= '<center>';
+                            $result .= ' <button type="button" class="btn btn-sm btn-primary btn-downloadPdf-requests" data-bs-toggle="modal" data-bs-target="#modalDownloadJoDetailsPdf" title="Download JO Request Details" requests-id="' . $jo_request_details->id . '"><i class="fa fa-download"></i></button>';
                             $result .= ' <button type="button" class="btn btn-sm btn-success btn-viewComplete-requests" data-bs-toggle="modal" data-bs-target="#modalViewCompleteRequest" title="View Complete Request" requests-id="' . $jo_request_details->id . '"><i class="fa fa-eye"></i></button>';
                         $result .= '</center>';
                     } 
@@ -349,11 +351,11 @@ class JoRequestController extends Controller
                         $result = '<span class="badge badge-pill badge-primary">For approval to complete</span>';
                     }
                     if($jo_request_details->jo_requests_conformance->conformance_status == 10){
-                        $result = '<span class="badge badge-pill badge-primary">For requestor conformance <br> to complete</span>';
+                        $result = '<span class="badge badge-pill badge-success">JO REQUEST DONE</span>';
                     }
-                    if($jo_request_details->jo_requests_conformance->conformance_status == 11){
-                        $result = '<span class="badge badge-pill badge-success">JO Request DONE</span>';
-                    }
+                    // if($jo_request_details->jo_requests_conformance->conformance_status == 10){
+                    //     $result = '<span class="badge badge-pill badge-success">JO Request DONE</span>';
+                    // }
                 }
                 else{
                     if($jo_request_details->status == 2){
@@ -906,5 +908,25 @@ class JoRequestController extends Controller
         return response()->json(['completedJoRequestDetails' => $completedJoRequestDetails]);
     }
 
-    // 
+    // PDF
+    public function downloadJoRequestDetailsPDF(Request $request){
+        $pdf = Pdf::loadView('jo_request_details_pdf');
+        // return $request->requestID;
+
+        $joDetails =  JORequest::
+        with([   
+        'rapidx_user_details',
+        'rapidx_section_head_details',
+        'user_access_details.rapidx_user_details',
+        'jo_requests_conformance',
+        'jo_requests_conformance.rapidx_user_details'
+        ])
+        ->where('id', $request->requestID )
+        ->where('logdel', 0)
+        ->get();
+
+        // return $joDetails;
+
+        return $pdf->download('JORequestDetails'.'.pdf');
+    }
 }
