@@ -910,23 +910,25 @@ class JoRequestController extends Controller
 
     // PDF
     public function downloadJoRequestDetailsPDF(Request $request){
-        $pdf = Pdf::loadView('jo_request_details_pdf');
         // return $request->requestID;
-
+        
         $joDetails =  JORequest::
         with([   
-        'rapidx_user_details',
-        'rapidx_section_head_details',
-        'user_access_details.rapidx_user_details',
+            'rapidx_user_details',
+            'rapidx_section_head_details',
+            'user_access_details.rapidx_user_details',
         'jo_requests_conformance',
         'jo_requests_conformance.rapidx_user_details'
         ])
         ->where('id', $request->requestID )
         ->where('logdel', 0)
         ->get();
-
+        
         // return $joDetails;
-
-        return $pdf->download('JORequestDetails'.'.pdf');
+        $pdf = Pdf::loadView('jo_request_details_pdf', ['joDetails' => $joDetails]);
+        
+        $pdf->setPaper('A4', 'portrait');
+        
+        return $pdf->stream('JORequestDetails'.'.pdf');
     }
 }
