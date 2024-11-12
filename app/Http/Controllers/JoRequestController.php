@@ -925,6 +925,7 @@ class JoRequestController extends Controller
         ->get();
         
         // return $joDetails;
+
         $pdf = Pdf::loadView('jo_request_details_pdf', ['joDetails' => $joDetails]);
         
         $pdf->setPaper('A4', 'portrait');
