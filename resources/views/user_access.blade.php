@@ -178,8 +178,8 @@ $(document).ready(function () {
 
         "columns":[
           { "data" : "action" },
-          { "data" : "username" },
           { "data" : "fullname" },
+          { "data" : "username" },
           { "data" : "section" },
           { "data" : "access_level" }, 
         ],

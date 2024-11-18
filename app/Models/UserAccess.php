@@ -11,6 +11,8 @@ class UserAccess extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['rapidx_id']; 
+
     protected $table = "user_accesses";
     protected $connection = "mysql";
 

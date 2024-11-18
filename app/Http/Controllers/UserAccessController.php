@@ -91,14 +91,9 @@ class UserAccessController extends Controller
     }
 
     public function addUserAccess(Request $request){
-        // session_start();
-
         date_default_timezone_set('Asia/Manila');
-
+        
         $data = $request->all();
-
-        // return $data;
-        DB::beginTransaction();
 
             // Validate the incoming request data
         $request->validate([
@@ -124,31 +119,36 @@ class UserAccessController extends Controller
             'logdel' => 0,
         ];
 
-        // Start a database transaction
-        DB::beginTransaction();
+        // return $insertData;
 
+        
         try {
-            // Check if the record already exists
+            // Start a database transaction
+            DB::beginTransaction();
+        
             $checkIfAlreadyExist = UserAccess::where('rapidx_id', $request->rapidx_user)->exists();
-
+        
             if ($checkIfAlreadyExist) {
                 // Record exists, update it
                 if (isset($request->user_details_id)) {
-                    UserAccess::where('id', $request->user_details_id)->update($updateData);
                     DB::commit(); // Commit transaction after update
-                    return response()->json(['result' => 'Record updated successfully.'], 200);
+                    UserAccess::where('id', $request->user_details_id)->update($updateData);
+                    return response()->json(['result' => 'Record updated successfully.']);
                 } else {
-                    return response()->json(['result' => 'Record already exists.'], 409); // Conflict
+                    DB::rollBack();
+                    return response()->json(['result' => 'Record already exists.']); // Conflict
                 }
             } else {
                 // Record does not exist, insert it
-                UserAccess::create($insertData); // Use create for mass assignment
                 DB::commit(); // Commit transaction after insert
-                return response()->json(['result' => 'Record created successfully.'], 201);
+                // UserAccess::insert($insertData);
+                UserAccess::create($insertData); // Use create for mass assignment
+                return response()->json(['result' => 'Record created successfully.']);
             }
+        
         } catch (\Exception $e) {
-            DB::rollback(); // Rollback transaction on error
-            return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
+            DB::rollBack();
+            return response()->json(['error' => 'An error occurred while processing the request.', 'message' => $e->getMessage()]);
         }
     }
 

@@ -26,6 +26,7 @@ class ExportJoRequestController extends Controller
         'jo_requests_conformance',
         'jo_requests_conformance.rapidx_user_details'])
         // ->where('status', 3)
+        ->whereBetween('created_at', [$request->date_from,$request->date_to])
         ->get();
 
         $date = now();
