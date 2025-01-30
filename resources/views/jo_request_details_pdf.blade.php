@@ -124,7 +124,7 @@
             <div style="border: none; #000; outline: none; width: 100%; padding-top:10px;">
                 <table>
                     <tr>
-                        <td colspan="2" style="height: 200px; position: relative;">
+                        <td colspan="2" style="height: 150px; position: relative;">
                             <span class="section-title">Job Description:</span>
                             {{ $joDetails[0]->job_description }}
                             <div style="position: absolute; bottom: 10; right: 5;">
@@ -132,7 +132,7 @@
                                 <span style="border-bottom: 1px solid black; width: 100px; display: inline-block; text-align: center;"> {{ $joDetails[0]->currency == 1 ? '$' : '' }}{{ $joDetails[0]->allocated_budget }}</span>
                             </div>
                         </td>
-                        <td style="width: 35%; height: 200px;">
+                        <td style="width: 35%; height: 150px;">
                             <span class="section-title">Initial Action:</span>
                             {{ $joDetails[0]->initial_action }}
                         </td>
@@ -271,23 +271,34 @@
                         <tr>
                             <!-- Initial Approval -->
                             <td colspan="2" class="center">
-                                <div class="section-title">Initial Approval:</div>
-                                <div style="margin-top: 25px;">KTE</div>
+                                <div class="section-title" style="text-align: left;">Initial Approval:</div>
+                                <div class="signature-line center" style=" width: 150px; margin-top: 3rem;"></div> <!-- Line below the name -->
+                                <div>KTE</div>
+                                {{-- <div class="signature-name center" style="margin-top: 0px;">Name and Signature</div> --}}
                             </td>
                             
                             <!-- Final Approval -->
-                            <td colspan="2" class="center">
-                                <div class="section-title">Final Approval:</div>
-                                <div style="font-size: 10px; text-align: right; padding-right: 5px;">If cost is more than $5,000, need President's approval</div>
-                                <div style="display: flex; justify-content: space-around; margin-top: 25px;">
-                                    <span>JCP /</span>
-                                    <span> NCP</span>
+                            <td colspan="2" style="position: relative;">
+                                <div class="section-title" style="text-align: left;">Final Approval:</div>
+                                <div style="position: absolute; top: 0; right: 0; font-size: 10px; padding-right: 5px; word-wrap: break-word; white-space: normal; max-width: 100px;">
+                                    If cost is more than $5,000, need President's approval
                                 </div>
+
+                                <div class="center" style="margin-top: 1rem;">
+                                    <div class="signature-line center" style=" width: 80px; margin-top: 3rem;">
+                                        <div style="text-align: center;">JCP</div>
+                                    </div> <!-- Line below the name -->
+    
+                                    <div class="signature-line center" style=" width: 80px; margin-top: 3rem;">
+                                        <div style="text-align: center;">NCP</div>
+                                    </div> <!-- Line below the name -->
+                                </div>
+                            
                             </td>
                             
                             <!-- Approval Status -->
                             <td>
-                                <div  class="section-title">Approval Status:</div>
+                                <div  class="section-title" style="margin-bottom: 5px;">Approval Status:</div>
                                 <div class="text-green"><span class="checkbox"></span> Approved to Proceed</div>
                                 <div class="text-red"><span class="checkbox"></span> Disapproved to Proceed</div>
                                 
@@ -338,7 +349,8 @@
                                 <div class="center" style="margin-top: 1rem; margin-bottom: -1rem;">{{ $joDetails[0]->rapidx_user_details->name }}</div>
                                 <div class="signature-line center"></div>
                                 <div class="signature-name center">Name and Signature</div>
-                                <div style="border-top: 1px solid black; width: 50%; display: inline-block; margin-top: 5px;">Date</div>
+                                
+                                <div style="border-top: 1px solid black; width: 50%; display: inline-block; margin-top: 1rem;">Date</div>
                             </td>
                             
                             <!-- Documents -->

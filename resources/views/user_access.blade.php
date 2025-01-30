@@ -118,7 +118,8 @@
                 <option selected disabled>-- Select One --</option>   
                 <option value="FAS">FAS</option>
                 <option value="ISS">ISS</option>
-                <option value="TS Eng">TS Eng</option>
+                <option value="F1 TS Eng">F1 TS Eng</option>
+                <option value="F3 TS Eng">F3 TS Eng</option>
                 <option value="TS Prod">TS Prod</option>
                 <option value="TS QC">TS QC</option>
                 <option value="TS WHSE">TS WHSE</option>
@@ -221,15 +222,15 @@ $(document).ready(function () {
                   success: function (response) {
                     console.log(response);
                     if(response['result'] == 1){
-                      $("#modalAddUsertest").modal('hide');
-                      $("#formAddUsertest")[0].reset();        
+                      $("#modalAddUser").modal('hide');
+                      $("#formAddUser")[0].reset();        
 
                       // console.log('success');
                       dt_users.draw();
                       toastr.success('Request succesfully saved!');       
                     }else{
-                      $("#modalAddUsertest").modal('hide');
-                      $("#formAddUsertest")[0].reset();   
+                      $("#modalAddUser").modal('hide');
+                      $("#formAddUser")[0].reset();   
                       dt_users.draw();
                     }
                   },

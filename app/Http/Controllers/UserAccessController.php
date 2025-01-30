@@ -16,13 +16,19 @@ class UserAccessController extends Controller
 {
 
     public function loadRapidXUserList(Request $request){
-        $users = RapidxUser::where('user_stat', 1)->orderBy('name','asc')->whereNotIn('name',['Admin','Test QAD Admin Approver'])->get();
+        $users = RapidxUser::where('user_stat', 1)
+        ->orderBy('name','asc')
+        ->whereNotIn('name',['Admin','Test QAD Admin Approver'])
+        ->get();
 
         return response()->json(['users' => $users]);
     }
 
     public function loadAccessLevel(Request $request){
-        $users = UserAccess::with(['rapidx_user_details'])->where('logdel',0)->get();
+        $users = UserAccess::with(['rapidx_user_details'])
+        ->where('logdel',0)
+        ->orderBy('id','asc')
+        ->get();
 
         return DataTables::of($users)
         ->addColumn('action',function($user){
@@ -95,7 +101,13 @@ class UserAccessController extends Controller
         
         $data = $request->all();
 
-            // Validate the incoming request data
+        // return $data;
+
+        // return $request->rapidx_user;
+
+        // return $request->user_details_id;
+
+        // Validate the incoming request data
         $request->validate([
             'rapidx_user' => 'required|string',
             'access_level' => 'required|string',
@@ -126,13 +138,18 @@ class UserAccessController extends Controller
             // Start a database transaction
             DB::beginTransaction();
         
-            $checkIfAlreadyExist = UserAccess::where('rapidx_id', $request->rapidx_user)->exists();
+            $checkIfAlreadyExist = UserAccess::
+            where('rapidx_id', $request->rapidx_user)
+            ->where('section', $request->user_section)
+            ->exists();
+
+            // return $checkIfAlreadyExist;
+
         
             if ($checkIfAlreadyExist) {
-                // Record exists, update it
                 if (isset($request->user_details_id)) {
-                    DB::commit(); // Commit transaction after update
                     UserAccess::where('id', $request->user_details_id)->update($updateData);
+                    DB::commit(); // Commit transaction after update
                     return response()->json(['result' => 'Record updated successfully.']);
                 } else {
                     DB::rollBack();
@@ -140,9 +157,8 @@ class UserAccessController extends Controller
                 }
             } else {
                 // Record does not exist, insert it
+                UserAccess::insert($insertData); // Use create for mass assignment
                 DB::commit(); // Commit transaction after insert
-                // UserAccess::insert($insertData);
-                UserAccess::create($insertData); // Use create for mass assignment
                 return response()->json(['result' => 'Record created successfully.']);
             }
         

@@ -106,8 +106,30 @@
 
             </div>
             <div class="col-sm-6">
+              {{-- <div class="row">
+                <div class="col">
+                  <div class="form-check mb-3">
+                    <label class="form-check-label" for="add_yec_project">YEC PROJECT</label>
+                    <input type="checkbox" class="form-check-input" id="add_yec_project" name="yec_project">
+                  </div>
+                </div>
+              </div> --}}
 
+              <div class="row">
+                <div class="col">
+                  <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend w-50">
+                      <span class="input-group-text w-100" id="basic-addon1">YEC PROJECT?</span>
+                    </div>
+                    
+                      <input class="form-check ml-2" type="checkbox" class="form-check-input yecCheckBox" id="add_yec_project" name="yec_project">
+                      <label class="form-check" for="add_yec_project">YES</label>
+
+                  </div>
+                </div>
+              </div>
             </div>
+
             <div class="col-sm-6">
               <!--EQUIPMENT NAME-->
               <div class="row">
@@ -286,7 +308,8 @@
                     <select class="form-control" id="add_factory" name="factory_classification">
                       <option value="0" selected disabled>-- Select Classification --</option>
                       <option value="1">Factory 1</option>
-                      <option value="2">Factory 3</option>               
+                      <option value="2">Factory 2</option>
+                      <option value="3">Factory 3</option>               
                     </select>
                   </div>
                 </div>
@@ -1009,10 +1032,10 @@
                         <div class="col">
                             <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend w-50">
-                                <span class="input-group-text w-100" id="basic-addon1">FAS Engineer Assigned:</span>
+                                <span class="input-group-text w-100" id="basic-addon1">FAS Specialist Assigned:</span>
                                 </div>
                                 <select class="form-control sel-assign-fas" id="txtFasEngrAssigned" name="fas_engr_assigned">
-                                    <option value="0">-- Assign Engineer --</option>
+                                    <option value="0">-- Assign Specialist --</option>
                                 </select>
                             </div>
                         </div>
@@ -1409,10 +1432,10 @@
                         <div class="col">
                             <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend w-50">
-                                <span class="input-group-text w-100" id="basic-addon1">FAS Engineer Assigned:</span>
+                                <span class="input-group-text w-100" id="basic-addon1">FAS Specialist Assigned:</span>
                                 </div>
                                 <select class="form-control sel-assign-fas" style="pointer-events: none;" id="txtCompleteFasEngrAssigned" name="fas_engr_assigned" readonly>
-                                    <option value="0">-- Assign Engineer --</option>
+                                    <option value="0">-- Assign Specialist --</option>
                                 </select>
                             </div>
                         </div>
@@ -1606,6 +1629,7 @@
         ],
     });
 
+    var checkbox = document.getElementById('add_yec_project');
     $('#btnNewJORequest').click(function(){
 
       toastr.options = {
@@ -1645,12 +1669,28 @@
           let requestorId = JsonObject['user'][0].id;
           let requestor = JsonObject['user'][0].name;
           let department = JsonObject['user'][0].department_details.department_group;
-          let jo_request_ctrlno = JsonObject['jo_request_control_number'];
+          let jo_request_ctrlno = '';
+
+          jo_request_ctrlno = JsonObject['jo_request_control_number'];
+         
+
+          $('#generated_jo_no').val(jo_request_ctrlno); 
+
+          // Add an event listener for the "change" event
+        checkbox.addEventListener('change', function() {
+          if (checkbox.checked) {
+            let explodedArray = jo_request_ctrlno.split("-");
+
+            console.log('explodedArray',explodedArray);
+            $('#generated_jo_no').val(explodedArray[0] + '-FAS-' + explodedArray[2] + '-' + explodedArray[3]);   
+          }else{
+            $('#generated_jo_no').val(jo_request_ctrlno); 
+          }
+        });
 
           $('#add_requestor_id').val(requestorId);
           $('#add_requestor').val(requestor);
           $('#add_department').val(department);  
-          $('#generated_jo_no').val(jo_request_ctrlno);          
         }
       },
       error: function(data, xhr, status){
@@ -1706,12 +1746,13 @@
         $('#check_box').removeAttr('hidden');
         $('#labelId').removeAttr('hidden');
 
+        // console.log(requestStatus);
+
       if(requestStatus >= 1){
         $('#btnSubmitJORequest').prop('disabled', true);
         $('#check_box').prop('disabled', true);
       }else{
         $('#btnSubmitJORequest').prop('disabled', false);
-
       }
 
       getJORequestDetailsToEdit(requestId);
@@ -2295,6 +2336,8 @@
         loadFasEngineers($('.sel-assign-fas'));
 
       });
+
+      
 
       $('#modalAddUser').on('hidden.bs.modal', function() {
       // Reset the form fields

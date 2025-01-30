@@ -25,6 +25,9 @@ class JoRequestController extends Controller
     {
 
         $rapidx_user_id = $_SESSION['rapidx_user_id'];
+        $user_section = $_SESSION['fas_section'];
+
+        // return $fas_section;
 
         // return $rapidx_user_id;
 
@@ -43,7 +46,7 @@ class JoRequestController extends Controller
       
         // return $jo_request_details;
 
-        if($rapidx_user_id == 97){
+        if($rapidx_user_id == 97 || $user_section == 'FAS' || $user_section == 'ISS'){
             $jo_request_details = JoRequest::with([
                 'rapidx_user_details',
                 'jo_requests_conformance',
@@ -117,6 +120,7 @@ class JoRequestController extends Controller
                         if($jo_request_details->jo_requests_conformance->conformance_status == 0){     
                             if ($jo_request_details->jo_requests_conformance->assessed_by == $rapidx_user_id) { // ENGINEERING UPDATE
                                 $result .= ' <button type="button" class="btn btn-sm btn-info btn-conform-requests" title="Engineering Update" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
+                            }else{
                             }                       
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 1){
@@ -125,9 +129,9 @@ class JoRequestController extends Controller
                             }
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 2){
-                            if($rapidx_user_id == 147){ // JCP Conformance
+                            // if($rapidx_user_id == 147){ // JCP Conformance
                                 $result .= ' <button type="button" class="btn btn-sm btn-secondary btn-conform-requests" title="Conform request by JCP" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
-                            }
+                            // }
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 3){
                             if ($rapidx_user_id== 1627) { // for NCP 
@@ -152,9 +156,10 @@ class JoRequestController extends Controller
                             $result .= '<center>';
                             $result .= ' <button type="button" class="btn btn-sm btn-info btn-conform-requests" title="Assign Engineer" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
                             $result .= '</center>';
-                        }else{
-                            // $result .= ' <button type="button" class="btn btn-sm btn-success btn-viewComplete-requests" data-bs-toggle="modal" data-bs-target="#modalViewCompleteRequest" title="View Complete Request" requests-id="' . $jo_request_details->id . '"><i class="fa fa-eye"></i></button>';
                         }
+                        $result .= '<center>';
+                        $result .= ' <button type="button" class="btn btn-sm btn-info btn-view-jo-details" data-bs-toggle="modal" data-bs-target="#modalNewJORequest" title="View request" requests-status="' . $jo_request_details->status . '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-eye"></i></button>';
+                        $result .= '</center>';
                     }
                 }
                 else if($jo_request_details->status == 3){
@@ -388,26 +393,21 @@ class JoRequestController extends Controller
         // return $user;
 
         $jo_request_control_number = '';
-        $month = date('m');
+        $currentMonth = date('m');
         $year = date('y');
-        $year2 = date('Y');
+        $currentYear = date('Y');
+        $fiscalYearStartMonth = 4; 
         $counter = 0;
 
-        // return $year2;
-
-        $jo_request_details = JoRequest::where('logdel',0)->whereYear('created_at', $year2)->orderBy('id','desc')->first();
+        $jo_request_details = JoRequest::where('logdel',0)->whereYear('created_at', $currentYear)->orderBy('id','desc')->first();
 
         // return $jo_request_details;
 
-        if($jo_request_details != null)
+        if($jo_request_details != null && $currentMonth < $fiscalYearStartMonth)
         {   
             $control_number = $jo_request_details->jo_ctrl_no;
-
-            // return $control_number;
-
             $number = explode('-',$control_number);
-
-            $counter = intval($number[3]) + 1;
+            $counter = intval($number[3]) + 1; 
             
         }
         else
@@ -417,7 +417,7 @@ class JoRequestController extends Controller
 
         // return $counter;
 
-        $jo_request_control_number = "FASJO"."-".$dept. "-". $month . $year  . "-" . str_pad($counter, 3, "0", STR_PAD_LEFT);       
+        $jo_request_control_number = "FASJO"."-".$dept. "-". $currentMonth . $year  . "-" . str_pad($counter, 3, "0", STR_PAD_LEFT);       
 
         return response()->json(['result' => 1, 'jo_request_control_number' => $jo_request_control_number , 'user' => $user]);        
     }
