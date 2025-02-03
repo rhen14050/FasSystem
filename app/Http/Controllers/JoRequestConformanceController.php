@@ -136,6 +136,20 @@ class JoRequestConformanceController extends Controller
 
         $kte = RapidxUser::where('employee_number', 'G001')
         ->get();
+
+        // return $request->file('fas_attachment');
+
+        $generated_filename = "Conformance_attachment_" . date('YmdHis');
+
+        // return $generated_filename;
+
+        $original_filename = $request->file('fas_attachment')->getClientOriginalName();
+        $file_extension = $request->file('fas_attachment')->getClientOriginalExtension();
+        $conformance_attachment_filename = $generated_filename . "." . $file_extension;
+
+        // return $conformance_attachment_filename;
+
+        Storage::putFileAs('public/file_attachments/', $request->fas_attachment, $conformance_attachment_filename);
     
 
         if($request->recommendation == 3){
@@ -146,6 +160,8 @@ class JoRequestConformanceController extends Controller
                     'job_classification' => $request->conformace_classification,
                     'recommendation' => $request->recommendation,
                     'others_recommendation' => $request->others_recommendation,
+                    'conformance_attachment' => $conformance_attachment_filename,
+                    'attachment_orig_name' => $original_filename,
                     'estimated_completion_date' => $request->completion_date,
                     'estimated_cost' => $request->estimated_cost,
                     'estimated_type' => $request->estimated_type,
@@ -165,6 +181,8 @@ class JoRequestConformanceController extends Controller
                     'job_classification' => $request->conformace_classification,
                     'recommendation' => $request->recommendation,
                     'others_recommendation' => $request->others_recommendation,
+                    'conformance_attachment' => $conformance_attachment_filename,
+                    'attachment_orig_name' => $original_filename,
                     'estimated_completion_date' => $request->completion_date,
                     'estimated_cost' => $request->estimated_cost,
                     'estimated_type' => $request->estimated_type,
@@ -186,6 +204,8 @@ class JoRequestConformanceController extends Controller
                     'job_classification' => $request->conformace_classification,
                     'recommendation' => $request->recommendation,
                     // 'others_recommendation' => $request->others_recommendation,
+                    'conformance_attachment' => $conformance_attachment_filename,
+                    'attachment_orig_name' => $original_filename,
                     'estimated_completion_date' => $request->completion_date,
                     'estimated_cost' => $request->estimated_cost,
                     'estimated_type' => $request->estimated_type,
@@ -205,6 +225,8 @@ class JoRequestConformanceController extends Controller
                     'job_classification' => $request->conformace_classification,
                     'recommendation' => $request->recommendation,
                     // 'others_recommendation' => $request->others_recommendation,
+                    'conformance_attachment' => $conformance_attachment_filename,
+                    'attachment_orig_name' => $original_filename,
                     'estimated_completion_date' => $request->completion_date,
                     'estimated_cost' => $request->estimated_cost,
                     'estimated_type' => $request->estimated_type,

@@ -109,8 +109,10 @@ class JoRequestController extends Controller
                         $result .= ' <button type="button" class="btn btn-sm btn-info btn-view-jo-details" data-bs-toggle="modal" data-bs-target="#modalNewJORequest" title="View request" requests-status="' . $jo_request_details->status . '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-eye"></i></button>';
 
                         $result .= ' <button type="button" class="btn btn-sm btn-success btn-approve-requests" data-bs-toggle="modal" data-bs-target="#modalApprovedRequest" title="Conform request" requests-id="' . $jo_request_details->id . '"><i class="fa fa-check-circle"></i></button>';
-                    }else{              
+                    }else{           
+                        $result .= '<center>';   
                         $result .= ' <button type="button" class="btn btn-sm btn-info btn-view-jo-details" data-bs-toggle="modal" data-bs-target="#modalNewJORequest" title="View request" requests-status="' . $jo_request_details->status . '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-eye"></i></button>';
+                        $result .=  '</center>';
                     }
                     $result .= "";
                 }
@@ -125,13 +127,21 @@ class JoRequestController extends Controller
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 1){
                             if($rapidx_user_id == 97){ // KTE
+                                $result .= '<center>';
                                 $result .= ' <button type="button" class="btn btn-sm btn-primary btn-conform-requests" title="Conform request by KTE" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
+                                $result .=  '</center>';
+                            }else{
+                                if ($jo_request_details->jo_requests_conformance->assessed_by == $rapidx_user_id || $rapidx_user_id == 97) { // ENGINEERING UPDATE
+                                    $result .= '<center>';
+                                    $result .= ' <button type="button" class="btn btn-sm btn-info btn-conform-requests" title="Engineering Update" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
+                                    $result .=  '</center>';
+                                }
                             }
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 2){
-                            // if($rapidx_user_id == 147){ // JCP Conformance
+                            if($rapidx_user_id == 147){ // JCP Conformance
                                 $result .= ' <button type="button" class="btn btn-sm btn-secondary btn-conform-requests" title="Conform request by JCP" conformance-id="' . $jo_request_conformance[0]->jo_request_id. '" conformance-status="' . $jo_request_conformance[0]->conformance_status. '" requests-id="' . $jo_request_details->id . '"><i class="fa fa-edit"></i></button>';
-                            // }
+                            }
                         }
                         if($jo_request_details->jo_requests_conformance->conformance_status == 3){
                             if ($rapidx_user_id== 1627) { // for NCP 
@@ -301,6 +311,21 @@ class JoRequestController extends Controller
                 return $result;
             })
 
+            ->addColumn('fas_attachment', function ($jo_request_details) {
+                $result = "";
+
+                if(empty($jo_request_details->jo_requests_conformance->conformance_attachment)){
+                    $result = "<label>N/A</label>";
+                }else{
+                    $id = $jo_request_details->jo_requests_conformance->id; 
+                    $result .= "<a href='download_fas_attachment/$id'>";
+                    $result .=  $jo_request_details->jo_requests_conformance->attachment_orig_name;
+                    $result .="</a>";     
+                }
+
+                return $result;
+            })
+
             ->addColumn('est_date', function ($jo_request_details) {
                 $result = "";
                 if($jo_request_details->jo_requests_conformance != ''){
@@ -372,7 +397,7 @@ class JoRequestController extends Controller
                 return $result;
             })
 
-            ->rawColumns(['action', 'status', 'attachment', 'prepared_by', 'jo_classification', 'fas_assessment', 'est_date', 'assessed_by','conformance_status'])
+            ->rawColumns(['action', 'status', 'attachment', 'prepared_by', 'jo_classification', 'fas_assessment', 'est_date', 'assessed_by','conformance_status', 'fas_attachment'])
             ->make(true);
     }
 
@@ -931,5 +956,17 @@ class JoRequestController extends Controller
         $pdf->setPaper('A4', 'portrait');
         
         return $pdf->stream('JORequestDetails'.'.pdf');
+    }
+
+    public function downloadFasAttachment(Request $request){
+        $attachment = JORequestConformance::where('id', $request->request_id)->where('logdel', 0)->get();
+
+        // return $attachment;
+
+        $file =  storage_path() . "/app/public/file_attachments/" . $attachment[0]->conformance_attachment;
+
+        // return $file;
+
+        return Response::download($file, $attachment[0]->attachment_orig_name);
     }
 }

@@ -67,6 +67,7 @@ Route::middleware('CheckSession')->group(function(){
         Route::get('/approved_jo_to_complete', 'approvedJoToComplete')->name('approved_jo_to_complete');
         Route::get('/conformance_to_complete', 'conformanceToCompleteRequest')->name('conformance_to_complete');
         Route::get('/download_attachment/{request_id}', 'downloadAttachment')->name('download_attachment/{request_id}');
+        Route::get('/download_fas_attachment/{request_id}', 'downloadFasAttachment')->name('download_fas_attachment/{request_id}');
         
         Route::get('/get_ongoing_jo_request', 'getOngoingJoRequest')->name('get_ongoing_jo_request');
         Route::get('/download_jo_request_details_pdf/{requestID}', 'downloadJoRequestDetailsPDF')->name('download_jo_request_details_pdf');

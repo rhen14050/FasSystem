@@ -31,6 +31,11 @@ function getJORequestDetailsToConform(requestId){
                 }else{
                   $("#txtCAttachmentFileName").val('---');
                 }
+
+                 
+             
+
+
                 $('#check_box').on('click', function() {
                     $('#check_box').attr('checked', 'checked');
                     if($(this).is(":checked")){
@@ -220,6 +225,20 @@ function getJoRequestConformanceDetails(requestId) {
                     $('#txtEstimatedCost').removeAttr('readonly');
                     $('#txtFasRemarks').removeAttr('readonly');
                     $('#txtFasAssessment').removeAttr('readonly');
+                }
+
+                if(response['conformanceDetails'][0]['conformance_attachment'] != null){
+                    console.log('if');
+                    // $('#conformance_attachment').removeAttr('hidden');
+                    $('#fas_attachment').prop('hidden', true);
+                    $('#conformance_attachment').removeAttr('hidden');
+                    $("#conformance_attachment").val(response['conformanceDetails'][0]['attachment_orig_name']);
+                }else{
+                    // $('#fas_attachment').prop('hidden', true);
+                    // $("#conformance_attachment").val('---');
+                    $('#conformance_attachment').prop('hidden', true);
+                    $('#fas_attachment').removeAttr('hidden');
+                    console.log('else');
                 }
 
                 setTimeout(() => {

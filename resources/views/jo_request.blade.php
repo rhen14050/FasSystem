@@ -53,6 +53,7 @@
                       <th>Prepared by</th>     
                       <th>Job Classfication</th>    
                       <th>FAS Assessment</th>
+                      <th>FAS Attahment</th>
                       <th>Estimated Completion Date</th>    
                       <th>Assessed by</th> 
                     </tr>
@@ -1091,6 +1092,20 @@
                             </div>
                         </div>
                     </div>
+
+                      <!--FAS Engineer Assigned-->
+                      <div class="row">
+                        <div class="col">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend w-50">
+                                <span class="input-group-text w-100" id="basic-addon1">Attachment:</span>
+                                </div>
+                                <input type="file" class="form-control" id="fas_attachment" name="fas_attachment">
+                                <input type="text" class="form-control" id="conformance_attachment" name="conformance_attachment" readonly>
+                            </div>
+                        </div>
+                    </div> 
+                    
                 
                 </div>    
                 
@@ -1622,6 +1637,7 @@
           { "data" : "prepared_by" },
           { "data" : "jo_classification"},
           { "data" : "fas_assessment"},
+          { "data" : "fas_attachment"},
           { "data" : "est_date"},
           { "data" : "assessed_by"},
           // { "data" : "action", orderable:false, searchable:false },
@@ -1681,8 +1697,8 @@
           if (checkbox.checked) {
             let explodedArray = jo_request_ctrlno.split("-");
 
-            console.log('explodedArray',explodedArray);
-            $('#generated_jo_no').val(explodedArray[0] + '-FAS-' + explodedArray[2] + '-' + explodedArray[3]);   
+            // console.log('explodedArray',explodedArray);
+            $('#generated_jo_no').val(explodedArray[0] + '-YEC-' + explodedArray[2] + '-' + explodedArray[3]);   
           }else{
             $('#generated_jo_no').val(jo_request_ctrlno); 
           }
